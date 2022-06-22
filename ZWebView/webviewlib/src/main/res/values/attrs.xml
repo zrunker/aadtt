@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--ZWebView相关属性-->
+    <declare-styleable name="ZWebView">
+        <attr name="isProhibitLongClickEvent" format="boolean" />
+    </declare-styleable>
+</resources>

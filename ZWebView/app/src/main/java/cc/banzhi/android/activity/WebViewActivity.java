@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import cc.banzhi.android.jsevent.JavaScriptMixUpEvent;
 import cc.banzhi.android.utils.ClickUtil;
+import cc.banzhi.android.webviewlib.ZWebView;
 
 /**
  * WebView加载网页
@@ -147,7 +148,6 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
                 view.loadUrl(javascript);
                 // 执行方法
                 view.loadUrl("javascript:hide();");
-
 
                 if (isTel) {
                     // 编写javaScript方法-执行网页js
