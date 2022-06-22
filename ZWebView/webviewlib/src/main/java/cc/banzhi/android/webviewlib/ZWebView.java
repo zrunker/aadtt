@@ -8,6 +8,7 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -24,7 +25,7 @@ import android.widget.Toast;
  *
  * @author 邹峰立
  */
-public abstract class ZWebView extends WebView {
+public class ZWebView extends WebView {
     private boolean isPageFinished = false;
     private boolean isLoading = false;
     private final boolean isProhibitLongClickEvent;// 是否允许长按事件
@@ -122,25 +123,38 @@ public abstract class ZWebView extends WebView {
             }
         });
 
+        // 下载文件
+        setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+                // url下载文件地址
+                if (onZWebviewListener != null)
+                    onZWebviewListener.onDownloadStart(url, userAgent, contentDisposition, mimetype, contentLength);
+            }
+        });
+
         setWebViewClient(new WebViewClient() {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                boolean bool = shouldOverrideUrlLoad(url);
-                if (!bool)
+                boolean bool = onZWebviewListener != null && onZWebviewListener.shouldOverrideUrlLoad(url);
+                if (!bool) {
                     bool = super.shouldOverrideUrlLoading(view, url);
+                }
                 return bool;
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 boolean bool = false;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                        && onZWebviewListener != null) {
                     String url = request.getUrl().toString();
-                    bool = shouldOverrideUrlLoad(url);
+                    bool = onZWebviewListener.shouldOverrideUrlLoad(url);
                 }
-                if (!bool)
+                if (!bool) {
                     bool = super.shouldOverrideUrlLoading(view, request);
+                }
                 return bool;
             }
 
@@ -150,8 +164,10 @@ public abstract class ZWebView extends WebView {
                 onUrlReceived();
                 isPageFinished = true;
                 isLoading = false;
-                if (onZWebviewListener != null)
+                if (onZWebviewListener != null) {
+                    onZWebviewListener.onReceivedError(view);
                     onZWebviewListener.onReceivedError(view, request, error);
+                }
             }
 
             @Override
@@ -169,8 +185,10 @@ public abstract class ZWebView extends WebView {
                 onUrlReceived();
                 isPageFinished = true;
                 isLoading = false;
-                if (onZWebviewListener != null)
+                if (onZWebviewListener != null) {
+                    onZWebviewListener.onReceivedError(view);
                     onZWebviewListener.onReceivedSslError(view, handler, error);
+                }
             }
 
             @Override
@@ -179,8 +197,10 @@ public abstract class ZWebView extends WebView {
                 onUrlReceived();
                 isPageFinished = true;
                 isLoading = false;
-                if (onZWebviewListener != null)
+                if (onZWebviewListener != null) {
+                    onZWebviewListener.onReceivedError(view);
                     onZWebviewListener.onReceivedHttpError(view, request, errorResponse);
+                }
             }
 
             @Override
@@ -199,6 +219,13 @@ public abstract class ZWebView extends WebView {
                 isLoading = false;
                 if (onZWebviewListener != null)
                     onZWebviewListener.onPageFinished(view, url);
+            }
+
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                super.onLoadResource(view, url);
+                if (onZWebviewListener != null)
+                    onZWebviewListener.onLoadResource(view, url);
             }
         });
 
@@ -260,11 +287,6 @@ public abstract class ZWebView extends WebView {
     public void onUrlReceived() {
     }
 
-    // 网页内url跳转监听，空方法由开发者自行实现
-    public boolean shouldOverrideUrlLoad(String url) {
-        return false;
-    }
-
     public interface OnZWebviewListener {
         boolean onLongClick(View v);
 
@@ -273,6 +295,10 @@ public abstract class ZWebView extends WebView {
         void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error);
 
         void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse);
+
+        void onReceivedError(WebView view);
+
+        boolean shouldOverrideUrlLoad(String url);
 
         void onPageStarted(WebView view, String url, Bitmap favicon);
 
@@ -283,6 +309,10 @@ public abstract class ZWebView extends WebView {
         void onProgressChanged(WebView view, int newProgress);
 
         void onReceivedTitle(View view, String title);
+
+        void onLoadResource(WebView view, String url);
+
+        void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength);
     }
 
     private OnZWebviewListener onZWebviewListener;

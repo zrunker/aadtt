@@ -32,14 +32,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.tv_baidu:
                 // 访问百度
-                Intent intent_baidu = new Intent(this, WebViewActivity.class);
+                Intent intent_baidu = new Intent(this, WebViewActivity2.class);
                 intent_baidu.putExtra("weburl", "https://www.baidu.com");
                 intent_baidu.putExtra("isTel", false);
                 startActivity(intent_baidu);
                 break;
             case R.id.tv_tel:
                 // 访问本地文件
-                Intent intent_tel = new Intent(this, WebViewActivity.class);
+                Intent intent_tel = new Intent(this, WebViewActivity2.class);
                 intent_tel.putExtra("weburl", "file:///android_asset/tel.html");
                 intent_tel.putExtra("isTel", true);
                 startActivity(intent_tel);

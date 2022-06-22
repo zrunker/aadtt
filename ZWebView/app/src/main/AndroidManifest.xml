@@ -22,8 +22,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".WebViewActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".WebViewActivity" />
+        <activity android:name=".WebViewActivity2" />
     </application>
 
 </manifest>
