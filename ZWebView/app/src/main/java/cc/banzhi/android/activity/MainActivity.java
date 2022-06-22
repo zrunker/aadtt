@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.tv_baidu:
                 // 访问百度
                 Intent intent_baidu = new Intent(this, WebViewActivity.class);
-                intent_baidu.putExtra("weburl", "http://www.baidu.com");
+                intent_baidu.putExtra("weburl", "https://www.baidu.com");
                 intent_baidu.putExtra("isTel", false);
                 startActivity(intent_baidu);
                 break;
