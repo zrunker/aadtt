@@ -14,7 +14,7 @@
 #telElem {
 	position: absolute;
 	top: 30%;
-	left: 44%;
+	left: 40%;
 	cursor: pointer;
 	text-decoration: none;
 	font-size: 30px;
@@ -22,7 +22,7 @@
 #mobileElem {
 	position: absolute;
 	top: 35%;
-	left: 44%;
+	left: 40%;
 	cursor: pointer;
 	text-decoration: none;
 	font-size: 30px;
@@ -41,7 +41,7 @@
 	};
 	// 移动设备调用
 	function mobile() {
-        var tel = document.getElementById('telElem').innerHTML;
+        var tel = document.getElementById('mobileElem').innerHTML;
         // 调用android本地方法
         window.jsObj.clickOnAndroid(tel);
 	};
