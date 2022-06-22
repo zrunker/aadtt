@@ -256,9 +256,14 @@ public abstract class ZWebView extends WebView {
         return webSettings;
     }
 
-    abstract void onUrlReceived();
+    // Url加载完成（正确/错误）调用，空方法由开发者自行实现
+    private void onUrlReceived() {
+    }
 
-    abstract boolean shouldOverrideUrlLoad(String url);
+    // 网页内url跳转监听，空方法由开发者自行实现
+    private boolean shouldOverrideUrlLoad(String url) {
+        return false;
+    }
 
     public interface OnZWebviewListener {
         boolean onLongClick(View v);
