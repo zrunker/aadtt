@@ -60,14 +60,14 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
 
     // 初始化控件
     private void initView() {
-        // 初始化控件
-        topLayout = (RelativeLayout) findViewById(R.id.layout_top);
-        ImageView backImg = (ImageView) findViewById(R.id.img_back);
-        if (backImg != null)
+        topLayout = findViewById(R.id.layout_top);
+        ImageView backImg = findViewById(R.id.img_back);
+        if (backImg != null) {
             backImg.setOnClickListener(this);
-        titleTv = (TextView) findViewById(R.id.tv_title);
-        hProgressBar = (ProgressBar) findViewById(R.id.hprogressBar);
-        webView = (WebView) findViewById(R.id.webview);
+        }
+        titleTv = findViewById(R.id.tv_title);
+        hProgressBar = findViewById(R.id.hprogressBar);
+        webView = findViewById(R.id.webview);
         // 设置WebView属性
         initWebView();
     }
@@ -125,7 +125,7 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 hProgressBar.setVisibility(View.GONE);
                 topLayout.setVisibility(View.VISIBLE);
-                // 当网页加载出错时，加载本地错误文件
+//                // 当网页加载出错时，加载本地错误文件
 //                webView.loadUrl("file:///android_asset/error.html");
             }
 
@@ -153,7 +153,7 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
                     // 编写javaScript方法-执行网页js
                     String script = "javascript:function addMethod() {" +
                             "document.getElementById('telElem').setAttribute('href','javascript:;');" +
-                         // "document.getElementById('customerTel').href='javascript:;';" +
+                            // "document.getElementById('customerTel').href='javascript:;';" +
                             "document.getElementById('telElem').onclick = function() {alert(getTel());}" +
                             "}";
                     view.loadUrl(script);
@@ -199,7 +199,7 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 // newProgress 1-100
-                if (newProgress == 100) {
+                if (newProgress >= 100) {
                     // 记载完毕
                     hProgressBar.setVisibility(View.GONE);
                     topLayout.setVisibility(View.VISIBLE);
@@ -281,13 +281,9 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
     // 点击事件监听
     @Override
     public void onClick(View v) {
-        // 防止连续点击
-        if (ClickUtil.isFastClick())
-            return;
-        switch (v.getId()) {
-            case R.id.img_back:// 返回
-                finish();
-                break;
+        if (ClickUtil.isFastClick()) return;
+        if (v.getId() == R.id.img_back) {// 返回
+            finish();
         }
     }
 

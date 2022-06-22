@@ -20,9 +20,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView baiduTv = (TextView) findViewById(R.id.tv_baidu);
+        TextView baiduTv = findViewById(R.id.tv_baidu);
         baiduTv.setOnClickListener(this);
-        TextView telTv = (TextView) findViewById(R.id.tv_tel);
+        TextView telTv = findViewById(R.id.tv_tel);
         telTv.setOnClickListener(this);
     }
 
