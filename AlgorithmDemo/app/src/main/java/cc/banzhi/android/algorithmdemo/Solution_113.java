@@ -21,7 +21,8 @@ public class Solution_113 {
         if (head == null || head.next == null || k <= 0) return head;
 
         Node hNode = head;
-        Node lastNode = head;
+        Node preNode = null;
+        Node startNode = head;
 
         int index = 0;
         while (head != null) {
@@ -29,9 +30,12 @@ public class Solution_113 {
             index++;
 
             if (index % k == 0) {
-                Node startNode = reverse(lastNode, head);
+                Node[] nodes = reverse(startNode, head, preNode, head);
+                preNode = nodes[1];
+                startNode = head;
+
                 if (index / k == 1) {
-                    hNode = startNode;
+                    hNode = nodes[0];
                 }
             }
         }
@@ -39,10 +43,8 @@ public class Solution_113 {
         return hNode;
     }
 
-    private Node reverse(Node start, Node end, Node preNode, Node nextNode) {
-        Node nextNode = end.next;
-
-        Node
+    private Node[] reverse(Node start, Node end, Node head, Node tail) {
+        Node lastNode = start;
 
         Node preNode = null;
         while (start != end) {
@@ -51,10 +53,13 @@ public class Solution_113 {
             preNode = start;
             start = temp;
         }
-        if (preNode != null) {
-            preNode.next = nextNode;
+
+        lastNode.next = tail;
+        if (head != null) {
+            head.next = preNode;
         }
-        return end;
+
+        return new Node[]{preNode, lastNode};
     }
 
     public static void main(String[] args) {
@@ -72,6 +77,13 @@ public class Solution_113 {
 
         Node res = solution_113.reverseKGroup(head, 2);
 
-        System.out.println(res.value);
+        print(res);
+    }
+
+    private static void print(Node node) {
+        while (node != null) {
+            System.out.println(node.value);
+            node = node.next;
+        }
     }
 }
