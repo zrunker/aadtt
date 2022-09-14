@@ -29,7 +29,7 @@ public class Solution_103 {
         int left = -1;
         int min = Integer.MAX_VALUE;
         for (int i = nums.length - 1; i >= 0; i--) {
-            if (nums[i] < min) {
+            if (nums[i] > min) {
                 left = i;
             } else {
                 min = nums[i];
