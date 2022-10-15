@@ -32,6 +32,18 @@ public class Solution_95 {
         return num == null ? 0 : num;
     }
 
+    public char firstUniqChar2(String s) {
+        if (s == null || "".equals(s)) return ' ';
+        for (int i = 0; i < s.length(); i++) {
+            // 第一次出现的次数 和 最后一次出现的次数相等，说明只出现一次
+            char c = s.charAt(i);
+            if (s.indexOf(c) == s.lastIndexOf(c)) {
+                return c;
+            }
+        }
+        return ' ';
+    }
+
     public static void main(String[] args) {
         Solution_95 solution_95 = new Solution_95();
         System.out.println(solution_95.firstUniqChar("abaccdeff"));
