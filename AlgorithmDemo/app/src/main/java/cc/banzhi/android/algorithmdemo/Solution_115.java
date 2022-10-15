@@ -33,8 +33,7 @@ public class Solution_115 {
                 lastNode.next = pHead;
                 lastNode = lastNode.next;
 
-                if (pHead != null)
-                    pHead = pHead.next;
+                pHead = pHead.next;
             }
         }
 
